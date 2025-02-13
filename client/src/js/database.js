@@ -13,21 +13,23 @@ const initdb = async () =>
   });
 
 export const putDb = async (content) => {
+  console.log('Put to the database')
   const db = await openDB('jate', 1);
   const tx = db.transaction('jate', 'readwrite');
   const store = tx.objectStore('jate');
-  const request = store.add({ content });
+  const request = store.add({ id: 1, jate: content });
   const result = await request;
   console.log('Data saved to the database', result);
 };
 
 export const getDb = async () => {
-  const db = await openDB('jate', 1);
-  const tx = db.transaction('jate', 'readonly');
+  console.log('GET from the database');
+  const todosDb = await openDB('jate', 1);
+  const tx = todosDb.transaction('jate', 'readonly');
   const store = tx.objectStore('jate');
-  const request = store.getAll();
+  const request = store.get(1);
   const result = await request;
-  console.log('Data retrieved from the database', result);
+  console.log('result.value', result);
   return result;
 };
 
